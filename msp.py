@@ -11,6 +11,7 @@ from typing import List, Union
 from datetime import date, datetime
 from urllib.parse import urlparse
 from pyamf import remoting, ASObject, TypedObject, AMF3, amf3
+from secrets import token_hex
 
 
 # Generator to retrieve a Marking ID for ticket headers
@@ -160,7 +161,4 @@ def get_session_id() -> str:
     """
     Generate a random session id
     """
-
-    session_id = ''.join(f'{random.randint(0, 15):x}' for _ in range(48))
-    session_id = session_id[:46]
-    return base64.b64encode(session_id.encode()).decode()
+    return base64.b64encode(token_hex(23).encode()).decode()
