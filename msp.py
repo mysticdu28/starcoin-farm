@@ -41,8 +41,8 @@ def calculate_checksum(arguments: Union[int, str, bool, bytes, List[Union[int, s
     """
 
     checked_objects = {}
-    no_ticket_value = "v1n3g4r"
-    salt = "$CuaS44qoi0Mp2qp"
+    no_ticket_value = "XSV7%!5!AX2L8@vn"
+    salt = "2zKzokBI4^26#oiP"
 
     def from_object(obj):
         if obj is None:
@@ -88,7 +88,8 @@ def calculate_checksum(arguments: Union[int, str, bool, bytes, List[Union[int, s
             if isinstance(obj, ASObject) and "Ticket" in obj:
                 ticket_str = obj["Ticket"]
                 if ',' in ticket_str:
-                    return ticket_str.split(',')[5][:5]
+                    ticket_parts = ticket_str.split(',')
+                    return ticket_parts[0] + ticket_parts[5][-5:]
         return no_ticket_value
 
     def from_object_inner(obj):
@@ -102,7 +103,7 @@ def calculate_checksum(arguments: Union[int, str, bool, bytes, List[Union[int, s
             result += from_object(obj)
         return result
 
-    result_str = from_object_inner(arguments) + get_ticket_value(arguments) + salt
+    result_str = from_object_inner(arguments) + salt + get_ticket_value(arguments)
     return hashlib.sha1(result_str.encode()).hexdigest()
 
 
